@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  crypto_bot:
+    build: .
+    container_name: crypto_pulse_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # مپ کردن دیتابیس برای جلوگیری از پاک شدن اطلاعات هنگام آپدیت کانتینر
+      - ./crypto_alerts.db:/app/crypto_alerts.db
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
