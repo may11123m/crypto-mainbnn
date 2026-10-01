@@ -56,7 +56,7 @@ async def auto_delete_msg(chat_id: int, message_id: int, delay: int = 180):
 async def handle_health_check(request):
     return web.Response(text="Bot is online and running!")
 
-# --- حلقه پس‌زمینه بررسی هشدارهای قیمت ---
+# --- حلقه پس‌‌زمینه بررسی هشدارهای قیمت ---
 async def check_alerts_loop():
     while True:
         try:
@@ -120,7 +120,6 @@ def get_coins_keyboard(action_prefix: str, page: int = 1):
     page_data = COIN_PAGES.get(page, COIN_PAGES[1])
     coins = page_data["coins"]
     
-    # ساخت گرید ۳ ستونه از ارزها
     grid = []
     row = []
     for coin in coins:
@@ -131,7 +130,6 @@ def get_coins_keyboard(action_prefix: str, page: int = 1):
     if row:
         grid.append(row)
         
-    # دکمه‌های صفحه‌بندی
     prev_page = 3 if page == 1 else page - 1
     next_page = 1 if page == 3 else page + 1
     
@@ -208,7 +206,7 @@ async def handle_security_check(message: Message):
         await message.answer("⚠️ **Usage:** `check 0x...` or `/audit 0x...`", parse_mode="Markdown")
         return
 
-    msg = await message.answer(f"🛡️ Auditing contract address **`{address[:10]}...`**...")
+    msg = await message.answer(f"🛡️️ Auditing contract address **`{address[:10]}...`**...")
     audit_data = await security_service.check_token_security(address)
     report = security_service.format_security_report(audit_data)
     await msg.edit_text(report, parse_mode="Markdown", reply_markup=get_report_keyboard("nav_main"))
@@ -543,7 +541,7 @@ async def main():
 
     app = web.Application()
     app.router.add_get("/", handle_health_check)
-    runner = web.WebRunner(app)
+    runner = web.AppRunner(app)
     await runner.setup()
     port = int(os.getenv("PORT", 8080))
     site = web.TCPSite(runner, "0.0.0.0", port)
